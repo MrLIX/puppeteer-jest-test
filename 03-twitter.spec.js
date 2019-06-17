@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer')
+const devices = require('puppeteer/DeviceDescriptors');
 require('dotenv').config()
 
 let browser
@@ -24,7 +25,7 @@ describe('Twitter', () => {
 
     test('login', async () => {
         await page.goto('https://twitter.com/login')
-        // await page.emulate(puppeteer.devices['iPhone 6'])
+        // await page.emulate(devices['iPhone 6'])
         // +100 devices
 
         // email

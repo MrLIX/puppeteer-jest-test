@@ -2,7 +2,8 @@ const puppeteer = require('puppeteer')
 
 let browser
 let page
-let originalTimeout;
+const TIMEOUT_INTERVAL = 10000
+
 beforeAll(async () => {
     browser = await  puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -14,18 +15,30 @@ beforeAll(async () => {
         }
     })
     page = await browser.newPage()
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1900000000;
 })
-afterEach(function() {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-});
+
 
 describe('Google Homepage', () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = TIMEOUT_INTERVAL;
+
     test('has title "Google"', async () => {
-        await page.goto('https://google.com', {waitUntil: 'networkidle0'})
+        await page.goto('https://google.com')
         const title = await page.title()
         expect(title).toBe('Google')
+        await page.close()
+    })
+
+    test('Google search', async () => {
+        page = await browser.newPage()
+        await page.goto('https://google.com')
+        await page.waitForSelector('input[name="q"]', { visible: true })
+        await page.type('input[name="q"]', 'Uzbekistan')
+        await page.keyboard.press('Enter')
+        await page.waitForNavigation()
+        // await page.waitFor(1000)
+        const title = await page.title()
+        expect(title).toBe('Uzbekistan - Поиск в Google')
+        await page.close()
     })
 
     afterAll(async () => {

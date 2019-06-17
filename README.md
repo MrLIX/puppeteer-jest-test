@@ -1,2 +1,2 @@
-#Puppeteer test with Jest
-##Example tests
+Puppeteer test with Jest<br>
+Example tests

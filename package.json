@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "puppeteer": "^1.6.2"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer')
 
 let browser
 let page
-const TIMEOUT_INTERVAL = 10000
+const TIMEOUT_INTERVAL = 100000
 
 beforeAll(async () => {
     browser = await  puppeteer.launch({
@@ -34,6 +34,7 @@ describe('Google Homepage', () => {
         await page.waitForSelector('input[name="q"]', { visible: true })
         await page.type('input[name="q"]', 'Uzbekistan')
         await page.keyboard.press('Enter')
+        // await page.click('input[type="submit"]')
         await page.waitForNavigation()
         // await page.waitFor(1000)
         const title = await page.title()
